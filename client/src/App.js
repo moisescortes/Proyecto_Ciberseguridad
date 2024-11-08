@@ -9,7 +9,8 @@ import EditProfilePage from './EditProfilePage';
 import EmployeeListPage from './EmployeeListPage';
 import JobOffersPage from './JobOffersPage';
 
-function App() {
+
+function MainApp() {
     return (
         <Router>
             <Routes>
@@ -27,4 +28,4 @@ function App() {
 }
 
 
-export default App;
+export default MainApp;
