@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login';
-import Signup from './Signup';
-import OptionsPage from './OptionsPage';
-import ProfileOptionsPage from './ProfileOptionsPage';
-import EditProfilePage from './EditProfilePage';
-import EmployeeListPage from './EmployeeListPage';
-import JobOffersPage from './JobOffersPage';
+import Home from './Home.js';
+import Login from './Login.js';
+import Signup from './Signup.js';
+import OptionsPage from './OptionsPage.js';
+import ProfileOptionsPage from './ProfileOptionsPage.js';
+import EditProfilePage from './EditProfilePage.js';
+import EmployeeListPage from './EmployeeListPage.js';
+import JobOffersPage from './JobOffersPage.js';
 
 
 function MainApp() {
