@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css/Login.css";
 import { auth } from "../../firebase.js";
+import Alert  from "../UI/Alert.js";
 import {
 	signInWithEmailAndPassword,
 	GoogleAuthProvider,
@@ -59,7 +60,7 @@ function Login() {
 			<div className="login-content">
 				<h2>Iniciar Sesión</h2>
 
-				{error && <div className="error-message">{error}</div>}
+				{error && <Alert type="error" children={error} />}
 
 				<form onSubmit={handleSubmit}>
 					<div className="form-group">
