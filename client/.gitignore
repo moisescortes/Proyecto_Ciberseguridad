@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-
+serviceAccountKey.json
 # production
 /build
 
