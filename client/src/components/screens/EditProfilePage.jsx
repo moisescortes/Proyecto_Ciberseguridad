@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SkillSelector from "./SkillSelector.js";
-import "./EditProfilePage.css";
+import SkillSelector from "../UI/SkillSelector.js";
+import "./css/EditProfilePage.css";
 
 function EditProfilePage() {
 	const navigate = useNavigate();

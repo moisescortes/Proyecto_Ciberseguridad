@@ -7,8 +7,8 @@ import Login from "./components/screens/Login.jsx";
 import Signup from "./components/screens/Signup.jsx";
 import OptionsPage from "./components/screens/OptionsPage.jsx";
 import ProfileOptionsPage from "./ProfileOptionsPage.js";
-import EditProfilePage from "./EditProfilePage.js";
-import EmployeeListPage from "./EmployeeListPage.js";
+import EditProfilePage from "./components/screens/EditProfilePage.jsx";
+import EmployeeListPage from "./components/screens/EmployeeListPage.jsx";
 import JobOffersPage from "./JobOffersPage.js";
 
 function App() {

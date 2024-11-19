@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FilterModal from "./FilterModal.js";
-import "./EmployeeListPage.css";
+import FilterModal from "../UI/FilterModal.jsx";
+import "./css/EmployeeListPage.css";
 
 // Sample employee data
 const employees = [
