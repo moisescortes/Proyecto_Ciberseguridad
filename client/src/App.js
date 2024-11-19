@@ -2,14 +2,14 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext.js";
 import PrivateRoute from "./components/PrivateRoute.js";
-import Home from "./Home.js";
+import Home from "./components/screens/Home.jsx";
 import Login from "./components/screens/Login.jsx";
 import Signup from "./components/screens/Signup.jsx";
 import OptionsPage from "./components/screens/OptionsPage.jsx";
-import ProfileOptionsPage from "./ProfileOptionsPage.js";
+import ProfileOptionsPage from "./components/screens/ProfileOptionsPage.jsx";
 import EditProfilePage from "./components/screens/EditProfilePage.jsx";
 import EmployeeListPage from "./components/screens/EmployeeListPage.jsx";
-import JobOffersPage from "./JobOffersPage.js";
+import JobOffersPage from "./components/screens/JobOffersPage.jsx";
 
 function App() {
 	return (

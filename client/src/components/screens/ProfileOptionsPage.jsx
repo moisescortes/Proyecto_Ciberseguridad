@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ProfileOptionsPage.css';
+import './css/ProfileOptionsPage.css';
 
 function ProfileOptionsPage() {
     const navigate = useNavigate();
