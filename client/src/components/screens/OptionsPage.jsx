@@ -1,9 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './OptionsPage.css';
+import './css/OptionsPage.css';
+import { useAuth } from "../../contexts/AuthContext.js";
+
 
 function OptionsPage() {
     const navigate = useNavigate();
+    const { logout } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate("/"); // Redirigir al inicio después de cerrar sesión
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error);
+        }
+    };
 
     const handleClick = (path) => {
         navigate(path);
@@ -31,6 +43,9 @@ function OptionsPage() {
                         <h2>Hacer perfil</h2>
                         <p>Crea tu perfil y explora ofertas de trabajo</p>
                     </div>
+                        <button className="logout-button" onClick={handleLogout}>
+                Cerrar Sesión
+            </button>
                 </div>
             </div>
         </div>
