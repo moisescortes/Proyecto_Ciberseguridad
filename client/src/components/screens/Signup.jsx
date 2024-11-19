@@ -1,29 +1,93 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.js";
+import Alert from "../UI/Alert.js";
 import "./css/Signup.css";
 
 function Signup() {
-	const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { signup } = useAuth();
 
-	const handleSignup = () => {
-		navigate("/options"); // Redirect to Options Page
-	};
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    
+    try {
+      setError("");
+      setLoading(true);
+      
+      // Validaciones básicas
+      if (!username || !password) {
+        throw new Error("Por favor complete todos los campos");
+      }
+      
+      if (password.length < 6) {
+        throw new Error("La contraseña debe tener al menos 6 caracteres");
+      }
 
-	return (
-		<div className="signup-container">
-			<button className="back-button" onClick={() => navigate("/")}>
-				Atras
-			</button>
-			<h2>Signup</h2>
-			<form>
-				<input type="text" placeholder="Nombre de usuario: " />
-				<input type="password" placeholder="Contraseña" />
-				<button type="button" onClick={handleSignup}>
-					Crear cuenta
-				</button>
-			</form>
-		</div>
-	);
+      // Crear cuenta usando el contexto de autenticación
+      await signup(username, password);
+      
+      // Si el registro es exitoso, redirigir a opciones
+      navigate("/options");
+    } catch (error) {
+      setError(
+        error.message || "Ocurrió un error al crear la cuenta"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="signup-container">
+      <button 
+        className="back-button" 
+        onClick={() => navigate("/")}
+        disabled={loading}
+      >
+        Atrás
+      </button>
+      
+      <h2>Registro</h2>
+      
+      {error && (
+        <Alert variant="destructive" className="mb-4">
+          {error}
+        </Alert>
+      )}
+
+      <form onSubmit={handleSignup}>
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          disabled={loading}
+          required
+        />
+        
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
+          required
+        />
+        
+        <button 
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Creando cuenta..." : "Crear cuenta"}
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default Signup;
