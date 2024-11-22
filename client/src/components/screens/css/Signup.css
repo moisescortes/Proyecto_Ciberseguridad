@@ -1,60 +1,113 @@
 /* Signup.css */
 
+/* Contenedor principal */
 .signup-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom, #a2d5f2, #d6eaf8);
+    background: linear-gradient(135deg, #56CCF2, #2F80ED); /* Gradiente moderno */
+    font-family: 'Poppins', sans-serif;
+    color: #333;
     text-align: center;
+    overflow: hidden;
+    transition: background 0.5s ease;
 }
 
+/* Gradiente cambia suavemente al pasar el ratón sobre el contenedor */
+.signup-container:hover {
+    background: linear-gradient(135deg, #89c2e1, #d6eaf8);
+}
+
+/* Estilo del título */
 .signup-container h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: fadeIn 1s ease-out;
 }
 
+/* Animación de aparición suave del título */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para los formularios */
 .signup-container form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
+/* Campos de entrada */
 .signup-container input {
-    padding: 0.5rem;
+    padding: 1rem;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
 }
 
+/* Efecto al hacer foco en los campos de entrada */
+.signup-container input:focus {
+    border-color: #56CCF2;
+}
+
+/* Botón de crear cuenta */
 .signup-container button {
-    padding: 0.5rem;
-    background-color: #4CAF50;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
     color: white;
+    background-color: #4CAF50;
     border: none;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    margin-top: 1rem;
 }
 
+/* Efectos del botón de crear cuenta */
 .signup-container button:hover {
     background-color: #45a049;
+    transform: translateY(-5px);
 }
 
+.signup-container button:active {
+    transform: translateY(2px);
+}
 
-/* Back Button Style */
+/* Estilo para el botón de regresar */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 0.5rem 1rem;
+    padding: 0.8rem 1.5rem;
     background-color: #333;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 50px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+/* Efectos del botón de regresar */
 .back-button:hover {
     background-color: #555;
 }

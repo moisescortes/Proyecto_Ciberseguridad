@@ -1,3 +1,4 @@
+// client/src/components/screens/EditProfilePage.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SkillSelector from "../UI/SkillSelector.js";

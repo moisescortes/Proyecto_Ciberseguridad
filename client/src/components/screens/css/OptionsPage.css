@@ -1,90 +1,133 @@
 /* OptionsPage.css */
-
+/* Contenedor principal */
 .options-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #6e8efb, #4a6cf7);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
 }
+
+/* Botón de cerrar sesión */
 .logout-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #ff4d4d;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background-color: #FF6F61;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .logout-button:hover {
-    background-color: #ff1a1a;
+    background-color: #FF4B39;
+    transform: scale(1.05);
 }
 
+.logout-button:focus {
+    outline: none;
+}
+
+/* Contenido principal */
 .options-content {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     text-align: center;
+    animation: fadeIn 1s ease-out;
 }
 
+/* Animación de aparición */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título de la página */
 .options-title {
     color: white;
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 3rem;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    letter-spacing: 1.5px;
 }
 
+/* Grid de opciones */
 .options-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    padding: 1rem;
+    padding: 2rem;
+    justify-items: center;
+    align-items: center; 
 }
 
+/* Estilo de las tarjetas de opciones */
 .option-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 16px;
-    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 2.5rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease, transform 0.3s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 12px 50px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+
 }
 
 .option-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    background: white;
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.2);
+    background: #ffffff;
 }
 
+.option-card:active {
+    transform: translateY(5px);
+}
+
+/* Icono de cada opción */
 .option-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #4A6CF7;
 }
 
+/* Títulos dentro de las tarjetas */
 .option-card h2 {
     color: #2d3748;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
     margin-bottom: 1rem;
+    letter-spacing: 0.5px;
 }
 
+/* Descripción dentro de las tarjetas */
 .option-card p {
     color: #718096;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1.1rem;
+    line-height: 1.6;
     margin: 0;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .options-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
         margin-bottom: 2rem;
     }
 
@@ -92,24 +135,4 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-}
-
-/* Animation for cards */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.option-card {
-    animation: fadeInUp 0.6s ease forwards;
-}
-
-.option-card:nth-child(2) {
-    animation-delay: 0.2s;
 }

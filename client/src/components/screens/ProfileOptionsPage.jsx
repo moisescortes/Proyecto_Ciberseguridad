@@ -1,3 +1,4 @@
+//client/src/components/screens/ProfileOptionsPage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/ProfileOptionsPage.css';
@@ -6,7 +7,7 @@ function ProfileOptionsPage() {
     const navigate = useNavigate();
 
     const handleNavigation = (path) => {
-        console.log('Attempting to navigate to:', path);
+        console.log('Navigating to:', path);
         navigate(path);
     };
 
@@ -30,7 +31,7 @@ function ProfileOptionsPage() {
                     className="back-button"
                     onClick={() => {
                         console.log('Navigating back to root options');
-                        navigate('/options');  // Changed this to navigate to root
+                        navigate('/options');
                     }}
                 >
                     Atrás
@@ -42,7 +43,6 @@ function ProfileOptionsPage() {
                             key={option.path}
                             className="option-card"
                             onClick={() => handleNavigation(option.path)}
-                            style={{ cursor: 'pointer' }}
                         >
                             <h3 className="option-title">{option.title}</h3>
                             <p className="option-description">{option.description}</p>

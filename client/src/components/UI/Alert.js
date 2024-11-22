@@ -1,3 +1,4 @@
+//client/src/components/UI/Alert.js
 import React from "react";
 import "../screens/css/Alert.css";
 

@@ -1,3 +1,4 @@
+//client/src/components/UI/SkillButton.js
 import React from 'react';
 
 function SkillButton({ skill, isSelected, onClick, mode = 'select' }) {

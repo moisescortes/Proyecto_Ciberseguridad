@@ -1,5 +1,5 @@
+//client/src/components/screens/JobOffersPage.jsx
 import React from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import './css/JobOffersPage.css';
 
@@ -44,19 +44,15 @@ function JobOffersPage() {
                     className="back-button"
                     onClick={() => navigate('/hacer-perfil')}
                 >
-                    Atrás
+                    <span className="arrow"></span> Atrás
                 </button>
                 <h2 className="offers-title">Ofertas de Trabajo</h2>
                 
                 {jobOffers.map((job) => (
                     <div key={job.id} className="job-card">
                         <h3 className="job-title">{job.title}</h3>
-                        <p className="job-info">
-                            <strong>Ubicación:</strong> {job.location}
-                        </p>
-                        <p className="job-info">
-                            <strong>Horario:</strong> {job.hours}
-                        </p>
+                        <p className="job-info"><strong>Ubicación:</strong> {job.location}</p>
+                        <p className="job-info"><strong>Horario:</strong> {job.hours}</p>
                         <p className="job-description">{job.description}</p>
                         <div className="contact-info">
                             <div className="contact-item">

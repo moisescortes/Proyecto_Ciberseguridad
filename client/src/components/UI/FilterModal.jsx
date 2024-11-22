@@ -1,3 +1,4 @@
+//client/src/components/UI/FilterModal.jsx
 import React, { useState } from "react";
 import "../screens/css/FilterModal.css";
 

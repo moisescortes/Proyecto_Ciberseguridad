@@ -1,41 +1,107 @@
 /* Home.css */
-
+/* Contenedor principal */
 .home-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to bottom, #a2d5f2, #d6eaf8);
+    background: linear-gradient(135deg, #a2d5f2, #d6eaf8);
     color: #333;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
+    overflow: hidden;
+    transition: background 0.5s ease;
 }
 
+/* Efecto de cambio de gradiente al pasar el ratón sobre el contenedor */
+.home-container:hover {
+    background: linear-gradient(135deg, #56CCF2, #2F80ED);
+}
+
+/* Animación de entrada del título */
 .home-title {
-    font-size: 2.5rem;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     margin-bottom: 2rem;
-    color: #333;
+    animation: fadeIn 1s ease-out;
 }
 
+/* Animación para hacer que el título entre de manera suave */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo de los botones de navegación */
 .home-nav {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
+/* Botones con bordes redondeados, sombras y animaciones */
 .home-button {
-    padding: 1rem 2rem;
+    padding: 1.2rem 2.8rem;
     font-size: 1.2rem;
+    font-weight: 600;
     color: white;
     background-color: #4CAF50;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    width: 150px;
+    width: 220px;
     text-align: center;
     text-decoration: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
+/* Efectos al pasar el ratón sobre el botón */
 .home-button:hover {
     background-color: #45a049;
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto de 'presionar' el botón */
+.home-button:active {
+    transform: translateY(2px);
+}
+
+/* Estilo para el contorno al enfocar el botón */
+.home-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.4);
+}
+
+/* Efecto de animación para los botones */
+.home-button:nth-child(1) {
+    animation: slideUp 0.6s ease-out;
+}
+
+.home-button:nth-child(2) {
+    animation: slideUp 0.6s ease-out 0.2s;
+}
+
+/* Animación de aparición suave para los botones */
+@keyframes slideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
