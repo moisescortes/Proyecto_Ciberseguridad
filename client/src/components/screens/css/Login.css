@@ -6,22 +6,61 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: linear-gradient(135deg, #89c2e1, #d6eaf8); /* Gradiente moderno */
+    min-height: 100vh;
+    position: relative;
+    background: linear-gradient(135deg, #89c2e1, #d6eaf8);
     font-family: 'Poppins', sans-serif;
     color: #333;
     text-align: center;
     overflow: hidden;
-    transition: background 0.5s ease;
 }
 
-/* Gradiente cambia suavemente al pasar el ratón sobre el contenedor */
-.login-container:hover {
-    background: linear-gradient(135deg, #56CCF2, #2F80ED);
+/* Fondo animado */
+.login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #89c2e1, #d6eaf8);
+    opacity: 0.8;
+    z-index: 1;
+    animation: gradientBG 15s ease infinite;
 }
 
-/* Estilo del título */
-.login-container h2 {
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Contenido del login */
+.login-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título */
+.login-content h2 {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 2rem;
@@ -31,107 +70,198 @@
     animation: fadeIn 1s ease-out;
 }
 
-/* Animación de aparición suave del título */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Contenedor de input */
+.input-container {
+    position: relative;
+    margin-bottom: 1.5rem;
 }
 
-/* Estilo para los formularios */
-.login-container form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 1.2rem;
 }
 
-/* Campos de entrada */
-.login-container input {
-    padding: 1rem;
+.input-field {
+    width: 80%;
+    padding: 1rem 1rem 1rem 3rem;
     font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.3s ease;
+    border: 2px solid #e1e1e1;
+    border-radius: 50px;
+    background-color: white;
+    transition: all 0.3s ease;
 }
 
-/* Efecto al hacer foco en los campos de entrada */
-.login-container input:focus {
+.input-field:focus {
     border-color: #56CCF2;
+    box-shadow: 0 0 0 3px rgba(86, 204, 242, 0.2);
 }
 
-/* Botón de inicio de sesión */
-.login-container button {
+/* Botón mostrar/ocultar contraseña */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.1rem;
+}
+
+/* Botones */
+.login-button, .google-button {
+    width: 100%;
     padding: 1rem 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    background-color: #4CAF50;
+    font-size: 1.1rem;
+    font-weight: 600;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    margin-top: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Efectos del botón de inicio de sesión */
-.login-container button:hover {
-    background-color: #45a049;
-    transform: translateY(-5px);
+.login-button {
+    background: linear-gradient(45deg, #4CAF50, #45a049);
+    color: white;
+    margin-bottom: 1rem;
 }
 
-.login-container button:active {
-    transform: translateY(2px);
+.login-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
 }
 
-/* Estilo para el botón de Google */
+.login-button.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* Spinner para el estado de carga */
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.divider span {
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Botón de Google */
 .google-button {
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: white;
-    background-color: #db4437;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    margin-top: 1rem;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    background: white;
+    color: #666;
+    border: 2px solid #e1e1e1;
 }
 
-/* Efectos del botón de Google */
 .google-button:hover {
-    background-color: #c1351d;
-    transform: translateY(-5px);
+    background-color: #f8f8f8;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.google-button:active {
-    transform: translateY(2px);
+.google-button i {
+    color: #db4437;
 }
 
-/* Estilo para el botón de regresar */
+/* Botón de regreso */
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
+    z-index: 3;
     padding: 0.8rem 1.5rem;
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.8);
     color: white;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
 }
 
-/* Efectos del botón de regresar */
 .back-button:hover {
-    background-color: #555;
+    background-color: rgba(51, 51, 51, 1);
+    transform: translateX(-2px);
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+    .login-content {
+        padding: 1.5rem;
+    }
+
+    .login-content h2 {
+        font-size: 2rem;
+    }
+
+    .back-button {
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+/* Efectos de enfoque y hover  */
+.input-field:focus ~ .input-icon {
+    color: #56CCF2;
+}
+
+.input-container:hover .input-field {
+    border-color: #ccc;
+}
+
+/* Animaciones para los iconos */
+.input-icon, .toggle-password i {
+    transition: all 0.3s ease;
+}
+
+.toggle-password:hover i {
+    color: #56CCF2;
+}
+
+/* Estilo para el estado de error */
+.alert {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }

@@ -17,6 +17,7 @@ function Login() {
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -36,7 +37,11 @@ function Login() {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       navigate("/options");
     } catch (error) {
-      setError(error.message);
+      setError(
+        error.code === "auth/invalid-credential"
+          ? "Credenciales inválidas. Por favor, verifica tu email y contraseña."
+          : "Ha ocurrido un error. Por favor, intenta de nuevo."
+      );
     } finally {
       setLoading(false);
     }
@@ -48,14 +53,17 @@ function Login() {
       await signInWithPopup(auth, provider);
       navigate("/options");
     } catch (error) {
-      setError(error.message);
+      setError("Error al iniciar sesión con Google. Por favor, intenta de nuevo.");
     }
   };
 
   return (
     <div className="login-container">
+      <div className="login-background"></div>
+      
       <button className="back-button" onClick={() => navigate("/")}>
-        Atrás
+        <i className="fas fa-arrow-left"></i>
+        <span>Atrás</span>
       </button>
 
       <div className="login-content">
@@ -63,39 +71,70 @@ function Login() {
 
         {error && <Alert type="error" children={error} />}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Correo electrónico"
-              required
-            />
+            <div className="input-container">
+              <i className="fas fa-envelope input-icon"></i>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Correo electrónico"
+                required
+                className="input-field"
+              />
+            </div>
           </div>
 
           <div className="form-group">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Contraseña"
-              required
-            />
+            <div className="input-container">
+              <i className="fas fa-lock input-icon"></i>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Contraseña"
+                required
+                className="input-field"
+              />
+              <button
+                type="button"
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <i className={`fas fa-eye${showPassword ? '-slash' : ''}`}></i>
+              </button>
+            </div>
           </div>
 
-          <button type="submit" className="login-button" disabled={loading}>
-            {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+          <button
+            type="submit"
+            className={`login-button ${loading ? 'loading' : ''}`}
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="spinner"></span>
+                <span>Iniciando sesión...</span>
+              </>
+            ) : (
+              "Iniciar Sesión"
+            )}
           </button>
+
+          <div className="divider">
+            <span>o</span>
+          </div>
 
           <button
             type="button"
             className="google-button"
             onClick={handleGoogleSignIn}
           >
-            Iniciar sesión con Google
+            <i className="fab fa-google"></i>
+            <span>Iniciar sesión con Google</span>
           </button>
         </form>
       </div>
