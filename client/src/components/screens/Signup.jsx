@@ -49,34 +49,26 @@ function Signup() {
       throw new Error("Las contraseñas no coinciden");
     }
 
-    const validatePassword = () => {
-      if (formData.password !== formData.confirmPassword) {
-        throw new Error("Las contraseñas no coinciden");
-      }
-  
-      // Validaciones individuales para mejor feedback
-      if (formData.password.length < 8) {
-        throw new Error("La contraseña debe tener al menos 8 caracteres");
-      }
-      
-      if (!/[A-Z]/.test(formData.password)) {
-        throw new Error("La contraseña debe tener al menos una mayúscula");
-      }
-      
-      if (!/[a-z]/.test(formData.password)) {
-        throw new Error("La contraseña debe tener al menos una minúscula");
-      }
-      
-      if (!/\d/.test(formData.password)) {
-        throw new Error("La contraseña debe tener al menos un número");
-      }
-      
-      if (!/[@$!%*?&#\-_.]/.test(formData.password)) {
-        throw new Error("La contraseña debe tener al menos un carácter especial (@$!%*?&#-_.)");
-      }
-    };
-  
+    // Validaciones individuales para mejor feedback
+    if (formData.password.length < 8) {
+      throw new Error("La contraseña debe tener al menos 8 caracteres");
+    }
     
+    if (!/[A-Z]/.test(formData.password)) {
+      throw new Error("La contraseña debe tener al menos una mayúscula");
+    }
+    
+    if (!/[a-z]/.test(formData.password)) {
+      throw new Error("La contraseña debe tener al menos una minúscula");
+    }
+    
+    if (!/\d/.test(formData.password)) {
+      throw new Error("La contraseña debe tener al menos un número");
+    }
+    
+    if (!/[@$!%*?&#\-_.]/.test(formData.password)) {
+      throw new Error("La contraseña debe tener al menos un carácter especial (@$!%*?&#-_.)");
+    }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(formData.password)) {

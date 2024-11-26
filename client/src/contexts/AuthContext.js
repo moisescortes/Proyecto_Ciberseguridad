@@ -1,99 +1,141 @@
 //client/src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import {
-	getAuth,
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	signOut,
-	onAuthStateChanged,
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendEmailVerification,
 } from "firebase/auth";
+import { db } from "../firebase.js"; // Agregar la extensión .js
+import { doc, setDoc, getDoc } from "firebase/firestore"; // Métodos de Firestore
 
 const AuthContext = createContext();
 
 export function useAuth() {
-	return useContext(AuthContext);
+  return useContext(AuthContext);
 }
 
 export function AuthProvider({ children }) {
-	const [currentUser, setCurrentUser] = useState(null);
-	const [loading, setLoading] = useState(true);
-	const auth = getAuth();
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const auth = getAuth();
 
-	async function signup(email, password) {
-		try {
-			const userCredential = await createUserWithEmailAndPassword(
-				auth,
-				email,
-				password
-			);
-			return userCredential.user;
-		} catch (error) {
-			throw new Error(getErrorMessage(error.code));
-		}
-	}
+  // Registro de usuario y guardado de datos en Firestore
+  async function signup(userData) {
+    try {
+      // Crear usuario en Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        userData.email,
+        userData.password
+      );
 
-	async function login(email, password) {
-		try {
-			const userCredential = await signInWithEmailAndPassword(
-				auth,
-				email,
-				password
-			);
-			return userCredential.user;
-		} catch (error) {
-			throw new Error(getErrorMessage(error.code));
-		}
-	}
+      const user = userCredential.user;
 
-	function logout() {
-		return signOut(auth);
-	}
+      // Enviar email de verificación
+      await sendEmailVerification(user);
 
-	// Función helper para traducir códigos de error de Firebase
-	function getErrorMessage(errorCode) {
-		switch (errorCode) {
-			case "auth/email-already-in-use":
-				return "Este correo electrónico ya está registrado";
-			case "auth/invalid-email":
-				return "Correo electrónico inválido";
-			case "auth/operation-not-allowed":
-				return "Operación no permitida";
-			case "auth/weak-password":
-				return "La contraseña es demasiado débil";
-			default:
-				return "Ocurrió un error durante la autenticación";
-		}
-	}
+      // Guardar datos adicionales en Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        email: userData.email,
+        birthDate: userData.birthDate || null,
+        phoneNumber: userData.phoneNumber || null,
+        notification: userData.notification || false,
+        createdAt: new Date().toISOString(),
+      });
 
-	async function verifyEmailCode(email, code) {
-		// Lógica para verificar el código de email
-	}
+      return user;
+    } catch (error) {
+      throw new Error(getErrorMessage(error.code));
+    }
+  }
 
-	async function resendCode(email) {
-		// Lógica para reenviar el código de verificación
-	}
+  // Inicio de sesión
+  async function login(email, password) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (user) => {
-			setCurrentUser(user);
-			setLoading(false);
-		});
+      // Obtener datos adicionales desde Firestore
+      const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+      const userData = userDoc.exists() ? userDoc.data() : null;
 
-		return unsubscribe;
-	}, [auth]);
+      // Combinar datos de Authentication y Firestore
+      setCurrentUser({ ...userCredential.user, ...userData });
+      return userCredential.user;
+    } catch (error) {
+      throw new Error(getErrorMessage(error.code));
+    }
+  }
 
-	const value = {
-		currentUser,
-		signup,
-		login,
-		logout,
-		verifyEmailCode, // Añadido
-		resendCode,      // Añadido
-	};
+  // Cerrar sesión
+  function logout() {
+    return signOut(auth);
+  }
 
-	return (
-		<AuthContext.Provider value={value}>
-			{!loading && children}
-		</AuthContext.Provider>
-	);
+  // Resend verification email
+  async function resendCode(email) {
+    try {
+      const user = auth.currentUser;
+      if (!user || user.email !== email) {
+        throw new Error("Usuario no autenticado o correo incorrecto");
+      }
+      await sendEmailVerification(user);
+    } catch (error) {
+      throw new Error("Error al reenviar el código de verificación");
+    }
+  }
+
+  // Mantener al usuario autenticado
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Obtener datos adicionales del usuario desde Firestore
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const userData = userDoc.exists() ? userDoc.data() : null;
+        setCurrentUser({ ...user, ...userData });
+      } else {
+        setCurrentUser(null);
+      }
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, [auth]);
+
+  // Función para traducir errores
+  function getErrorMessage(errorCode) {
+    const messages = {
+      "auth/email-already-in-use": "Este correo electrónico ya está registrado",
+      "auth/invalid-email": "Correo electrónico inválido",
+      "auth/operation-not-allowed": "Operación no permitida",
+      "auth/weak-password": "La contraseña es demasiado débil",
+      "auth/user-disabled": "Esta cuenta ha sido deshabilitada",
+      "auth/user-not-found": "No existe una cuenta con este correo electrónico",
+      "auth/wrong-password": "Contraseña incorrecta",
+    };
+
+    return messages[errorCode] || "Ocurrió un error durante la autenticación";
+  }
+
+  const value = {
+    currentUser,
+    signup,
+    login,
+    logout,
+    resendCode,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
