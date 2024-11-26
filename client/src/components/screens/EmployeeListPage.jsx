@@ -5,6 +5,43 @@ import FilterModal from "../UI/FilterModal.jsx";
 import { Search, MapPin, Star, Mail, Phone, ArrowLeft, Filter, Download } from "lucide-react";
 import "./css/EmployeeListPage.css";
 
+const employeeComments = {
+  1: [ // ID de Juan Cortez
+    {
+      id: 1,
+      name: "Ana Lopez",
+      rating: 4.5,
+      comment: "Juan es un desarrollador excepcional con un dominio increíble de JavaScript y React. Siempre cumple con los plazos y su código es muy limpio y bien estructurado.",
+      date: "2023-11-15"
+    },
+    {
+      id: 2,
+      name: "Carlos Rodriguez",
+      rating: 4.2,
+      comment: "Excelente colaborador en proyectos de Node.js. Su capacidad para resolver problemas complejos es realmente impresionante.",
+      date: "2023-10-22"
+    }
+  ],
+  2: [ // ID de Maria Sanchez
+    {
+      id: 1,
+      name: "Pedro Martinez",
+      rating: 4.7,
+      comment: "Maria es una desarrolladora de Python extremadamente competente. Su conocimiento de Django y SQL es profundo y siempre aporta soluciones innovadoras.",
+      date: "2023-11-10"
+    }
+  ],
+  3: [ // ID de Carlos Ramirez
+    {
+      id: 1,
+      name: "Laura Garcia",
+      rating: 4.0,
+      comment: "Carlos tiene un conocimiento sólido de Java y Docker. Es muy meticuloso en la implementación de sistemas y arquitecturas de microservicios.",
+      date: "2023-09-15"
+    }
+  ]
+};
+
 const employees = [
   {
     id: 1,
@@ -49,7 +86,6 @@ const employees = [
     projects: 8
   },
 ];
-
 function EmployeeListPage() {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -116,6 +152,43 @@ function EmployeeListPage() {
       if (sortOption === "experience") return parseInt(b.experience) - parseInt(a.experience);
       return 0;
     });
+
+  const renderComments = (employeeId) => {
+    const comments = employeeComments[employeeId] || [];
+    
+    return (
+      <div className="comments-section">
+        <h3>Comentarios y Reseñas</h3>
+        {comments.length === 0 ? (
+          <p className="no-comments">No hay comentarios disponibles</p>
+        ) : (
+          comments.map((comment) => (
+            <div key={comment.id} className="comment-card">
+              <div className="comment-header">
+                <div className="comment-author">{comment.name}</div>
+                <div className="comment-rating">
+                  <Star size={16} fill="#FFD700" />
+                  <span>{comment.rating.toFixed(1)}</span>
+                </div>
+              </div>
+              <div className="comment-body">
+                <p>{comment.comment}</p>
+              </div>
+              <div className="comment-footer">
+                <span className="comment-date">
+                  {new Date(comment.date).toLocaleDateString('es-MX', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    );
+  };
 
   const renderEmployeeCard = (employee) => (
     <div key={employee.id} className="employee-card">
@@ -370,6 +443,10 @@ function EmployeeListPage() {
                   loading="lazy"
                   title="map"
                 ></iframe>
+              </div>
+              {/* Añadir sección de comentarios después del mapa */}
+              <div className="comments-container">
+                {renderComments(selectedEmployee.id)}
               </div>
             </div>
           </div>

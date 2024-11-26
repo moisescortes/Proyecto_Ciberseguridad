@@ -1,16 +1,26 @@
 //client/src/components/UI/SkillButton.js
-import React from 'react';
+import React from "react";
+import { Check } from "lucide-react";
 
-function SkillButton({ skill, isSelected, onClick, mode = 'select' }) {
+const SkillButton = ({ skill, isSelected, onClick, mode = "select" }) => {
+  if (mode === "display") {
     return (
-        <button
-            type="button"
-            onClick={onClick}
-            className={`skill-button ${isSelected ? 'selected' : ''} ${mode}`}
-        >
-            {skill}
-        </button>
+      <span className={`skill-button ${isSelected ? "selected" : ""}`}>
+        {skill}
+      </span>
     );
-}
+  }
+
+  return (
+    <button
+      type="button"
+      className={`skill-button ${isSelected ? "selected" : ""}`}
+      onClick={onClick}
+    >
+      {skill}
+      {isSelected && <Check size={16} />}
+    </button>
+  );
+};
 
 export default SkillButton;

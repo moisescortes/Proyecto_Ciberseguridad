@@ -1,3 +1,4 @@
+//client/src/contexts/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
 import {
 	getAuth,
@@ -64,6 +65,14 @@ export function AuthProvider({ children }) {
 		}
 	}
 
+	async function verifyEmailCode(email, code) {
+		// Lógica para verificar el código de email
+	}
+
+	async function resendCode(email) {
+		// Lógica para reenviar el código de verificación
+	}
+
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setCurrentUser(user);
@@ -78,6 +87,8 @@ export function AuthProvider({ children }) {
 		signup,
 		login,
 		logout,
+		verifyEmailCode, // Añadido
+		resendCode,      // Añadido
 	};
 
 	return (
