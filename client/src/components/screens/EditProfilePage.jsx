@@ -1,5 +1,5 @@
 // client/src/components/screens/EditProfilePage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import SkillSelector from "../UI/SkillSelector.js";
 import { AlertCircle, Check, X } from "lucide-react";
@@ -12,6 +12,7 @@ function EditProfilePage() {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationType, setNotificationType] = useState("success");
   const [imagePreview, setImagePreview] = useState(null);
+  
   const [profile, setProfile] = useState({
     name: "",
     lastName: "",
@@ -21,16 +22,18 @@ function EditProfilePage() {
     skills: [],
   });
 
+  // ... Código omitido para la obtención del perfil actual ...
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile({
-      ...profile,
+    setProfile(prev => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
 
   const handleSkillToggle = (skill) => {
-    setProfile((prev) => ({
+    setProfile(prev => ({
       ...prev,
       skills: prev.skills.includes(skill)
         ? prev.skills.filter((s) => s !== skill)
@@ -41,10 +44,10 @@ function EditProfilePage() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfile({
-        ...profile,
+      setProfile(prev => ({
+        ...prev,
         image: file,
-      });
+      }));
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -62,13 +65,13 @@ function EditProfilePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Validate form
+    // Validar formulario
     if (!profile.lastName || (isEmployer && !profile.companyName)) {
       showNotificationMessage("Por favor complete todos los campos requeridos", "error");
       return;
     }
 
-    // Simulating API call
+    // Simulación de llamada a API
     setTimeout(() => {
       showNotificationMessage(
         isEmployer

@@ -25,35 +25,33 @@ export function AuthProvider({ children }) {
   // Registro de usuario y guardado de datos en Firestore
   async function signup(userData) {
     try {
+      // Remove password from userData before storing in Firestore
+      const { password, ...firestoreData } = userData;
+  
       // Crear usuario en Authentication
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         userData.email,
-        userData.password
+        password  // Use password directly here
       );
-
+  
       const user = userCredential.user;
-
+  
       // Enviar email de verificación
       await sendEmailVerification(user);
-
+  
       // Guardar datos adicionales en Firestore
       await setDoc(doc(db, "users", user.uid), {
-        firstName: userData.firstName,
-        lastName: userData.lastName,
-        email: userData.email,
-        birthDate: userData.birthDate || null,
-        phoneNumber: userData.phoneNumber || null,
-        notification: userData.notification || false,
+        ...firestoreData,
         createdAt: new Date().toISOString(),
       });
-
+  
       return user;
     } catch (error) {
+      console.error("Signup Error:", error);
       throw new Error(getErrorMessage(error.code));
     }
   }
-
   // Inicio de sesión
   async function login(email, password) {
     try {
